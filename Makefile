@@ -1,4 +1,4 @@
-TARGET  := audio_player
+TARGET  := emplayer
 SRC_DIR := src
 OBJ_DIR := objs
 BIN_DIR := bin
