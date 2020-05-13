@@ -1,6 +1,4 @@
 #include "audio_player_process.h"
-#include "hal_i2s.h"
-#include "hal_i2c_master.h"
 #include "prompt_flash.h"
 #include <string.h>
 

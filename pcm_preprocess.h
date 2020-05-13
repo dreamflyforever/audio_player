@@ -4,8 +4,6 @@
 #include <string.h>
 #include <stdlib.h>
 #include "FreeRTOS.h"
-#include "api_wakeup.h"
-#include "aec_api.h"
 
 #if defined(DEF_LINUX_PLATFORM)
 
