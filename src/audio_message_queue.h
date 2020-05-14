@@ -2,7 +2,7 @@
 #define __AUDIO_MESSAGE_QUEUE_H
 
 #include "FreeRTOS.h"
-#include "queue.h"
+#include "common_queue.h"
 
 typedef struct {
     uint32_t event;
