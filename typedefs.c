@@ -1,9 +1,6 @@
 #include "typedefs.h"
-#include "server_env.h"
+//#include "server_env.h"
 #include <stdarg.h>
-
-char g_device_id_str[DEVICE_ID_MAX_LEN + 1] = {0};
-char g_web_mqtt_topic_str[WEB_MQTT_TOPIC_MAX_LEN + 1] = {0};
 
 uint8_t g_volume_index = 5;
 int g_child_lock = 0;
