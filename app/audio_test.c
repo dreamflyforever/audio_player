@@ -214,21 +214,28 @@ void audio_player_test(void)
 {
 	static audio_player_proc_t resource_player;
 	static audio_player_proc_t prompt_player;
-	/*python -m SimpleHTTPServer& in the mp3 dirctory*/
-	//static audio_player_info_t resource_player_info = { "http://0.0.0.0:8000/test1.mp3", AUDIO_PLAYER_SRC_WEB, AUDIO_PLAYER_TYPE_RESOURCE, 0 };
-	//static audio_player_info_t resource_player_info = { "http://127.0.0.1:8000/test2.m4a", AUDIO_PLAYER_SRC_WEB, AUDIO_PLAYER_TYPE_RESOURCE, 0 };
-	static audio_player_info_t resource_player_info = { "../test3.aac", AUDIO_PLAYER_SRC_SD_CARD, AUDIO_PLAYER_TYPE_RESOURCE, 0 };
-	//static audio_player_info_t prompt_player_info   = { "/home/look/files/www/music/aac_test/test2_1.aac", AUDIO_PLAYER_SRC_SD_CARD, AUDIO_PLAYER_TYPE_PROMPT, 0 };
-	//static audio_player_info_t prompt_player_info   = { "StartUp.mp3", AUDIO_PLAYER_SRC_FLASH, AUDIO_PLAYER_TYPE_PROMPT, 0 };
-	//static audio_player_info_t resource_player_info = { "http://readbook.koo6.cn/soundU/64495cn.mp3?sign=d0f1c33058afb4fb1fef81ae198f13b4&t=5bf226bd", AUDIO_PLAYER_SRC_WEB, AUDIO_PLAYER_TYPE_RESOURCE, 0 };
-
 	pcm_trans_init();
 	audio_player_init(&resource_player);
 	audio_player_init(&prompt_player);
 
-	audio_player_start(&resource_player, &resource_player_info, false);vTaskDelay(8000);
-	//audio_player_start(&prompt_player, &prompt_player_info, false);
-
+	/*python -m SimpleHTTPServer& in the mp3 dirctory*/
+	static audio_player_info_t resource_player_info[] = {
+		{"http://0.0.0.0:8000/test1.mp3", AUDIO_PLAYER_SRC_WEB, AUDIO_PLAYER_TYPE_RESOURCE, 0},
+		{"http://127.0.0.1:8000/test2.m4a", AUDIO_PLAYER_SRC_WEB, AUDIO_PLAYER_TYPE_RESOURCE, 0},
+		{"../test3.aac", AUDIO_PLAYER_SRC_SD_CARD, AUDIO_PLAYER_TYPE_RESOURCE, 0},
+		{"../test3.aac", AUDIO_PLAYER_SRC_SD_CARD, AUDIO_PLAYER_TYPE_PROMPT, 0},
+		{"StartUp.mp3", AUDIO_PLAYER_SRC_FLASH, AUDIO_PLAYER_TYPE_PROMPT, 0},
+		{"http://readbook.koo6.cn/soundU/64495cn.mp3?sign=d0f1c33058afb4fb1fef81ae198f13b4&t=5bf226bd",
+		AUDIO_PLAYER_SRC_WEB, AUDIO_PLAYER_TYPE_RESOURCE, 0}
+	};
+	int i;
+	for (i = 0; i < sizeof(resource_player_info)/sizeof(resource_player_info[0]); i++) {
+		if (resource_player_info[i].type== AUDIO_PLAYER_TYPE_PROMPT)
+			audio_player_start(&prompt_player, &resource_player_info[i], false);
+		else
+			audio_player_start(&resource_player, &resource_player_info[i], false);
+		vTaskDelay(1000);
+	}
 	while(1) {
 		if( AUDIO_PLAYER_STA_IDLE == audio_player_get_state(&resource_player) && 
 				AUDIO_PLAYER_STA_IDLE == audio_player_get_state(&prompt_player)) {
